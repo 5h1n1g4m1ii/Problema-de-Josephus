@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_PEOPLE 20
+
+typedef struct {
+    int number;
+    char name[50];
+    char phone[20];
+    char address[100];
+    char cpf[20];
+} Person;
+
+int main() {
+    int m = 5; // número de pessoas a serem eliminadas a cada iteração
+    int remaining_people = MAX_PEOPLE; // número de pessoas restantes na roda
+    Person people[MAX_PEOPLE]; // vetor com as informações das pessoas
+    int i, j = 0; // variáveis auxiliares para percorrer a roda
+    int eliminated = 0; // contador de pessoas eliminadas
+    int last_person = -1; // número da última pessoa a ser eliminada
+    
+    // inicializa as informações das pessoas
+    for (i = 0; i < MAX_PEOPLE; i++) {
+        people[i].number = i + 1;
+        sprintf(people[i].name, "Pessoa %d", i + 1);
+        sprintf(people[i].phone, "0000-0000");
+        sprintf(people[i].address, "Endereço %d", i + 1);
+        sprintf(people[i].cpf, "000.000.000-00");
+    }
+    
+    // percorre a roda até que reste apenas uma pessoa
+    while (remaining_people > 1) {
+        // percorre a roda até encontrar a próxima pessoa a ser eliminada
+        for (i = 0; i < m; i++) {
+            do {
+                j = (j + 1) % MAX_PEOPLE;
+            } while (people[j].number == -1); // verifica se a pessoa já foi eliminada
+        }
+        
+        // elimina a pessoa encontrada
+        people[j].number = -1;
+        remaining_people--;
+        eliminated++;
+        last_person = j;
+    }
+    
+    // imprime o número da pessoa sobrevivente
+    printf("A pessoa sobrevivente é a número %d (%s).\n", people[last_person].number, people[last_person].name);
+    
+    return 0;
+}
